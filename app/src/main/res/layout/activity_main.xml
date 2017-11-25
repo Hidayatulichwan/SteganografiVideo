@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#258e8e"
+    tools:context="com.example.ichwan.steganigrafivideo.MainActivity">
+
+
+
+    <TextView
+        android:id="@+id/mTVhbd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="APLIKASI STEGANOGRAFI VIDEO"
+        android:layout_marginTop="20dp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="15dp"/>
+    <Button
+        android:id="@+id/btnEncode"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:text="Encode"
+        android:onClick="onClickEncode"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/mTVhbd"
+        android:layout_alignLeft="@+id/btnDecode"
+        android:layout_alignStart="@+id/btnDecode" />
+
+    <Button
+        android:id="@+id/btnDecode"
+        android:gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="30dp"
+        android:text="Decode"
+        android:onClick="onClickDecode"
+        android:layout_below="@+id/btnEncode"
+        />
+
+    <Button
+        android:id="@+id/btnHelp"
+        android:layout_width="300dp"
+        android:gravity="center"
+        android:layout_height="60dp"
+        android:layout_marginLeft="30dp"
+        android:text="Help"
+        android:onClick="onClickHelp"
+        android:layout_below="@+id/btnDecode"
+
+
+        />
+    <Button
+        android:id="@+id/btnAbout"
+        android:layout_width="300dp"
+        android:gravity="center"
+        android:layout_height="60dp"
+        android:layout_marginLeft="30dp"
+        android:text="About"
+        android:onClick="onClickAbout"
+        android:layout_below="@+id/btnHelp"
+
+
+        />
+
+    <Button
+        android:id="@+id/btnExit"
+        android:layout_width="300dp"
+        android:gravity="center"
+        android:layout_height="60dp"
+        android:layout_marginLeft="30dp"
+        android:layout_alignParentLeft="true"
+        android:text="Exit"
+        android:layout_below="@+id/btnAbout"
+
+        />
+
+    <ImageView
+        android:gravity="center"
+        android:id="@+id/mIVimages"
+        android:layout_width="320dp"
+        android:layout_height="150dp"
+        android:src="@drawable/logo2"
+        android:scaleType="centerCrop"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="370dp"/>
+
+</RelativeLayout>

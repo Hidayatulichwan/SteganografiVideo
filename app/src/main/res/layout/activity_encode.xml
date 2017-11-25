@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#258e8e"
+    tools:context="com.example.ichwan.steganigrafivideo.EncodeActivity">
+
+
+
+    <Button
+        android:id="@+id/btnvideo"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:text="Record A VIDEO"
+        android:textSize="12dp"
+        android:layout_marginLeft="38dp"
+        android:layout_centerHorizontal="true"  />
+
+
+    <TextView
+        android:id="@+id/Preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Preview"
+        android:textColor="#ffffff"
+        android:textSize="15dp"
+        android:layout_below="@+id/btnvideo"
+        android:layout_centerHorizontal="true" />
+
+    <!-- To preview video recorded -->
+     <VideoView
+        android:layout_marginTop="70dp"
+        android:id="@+id/videoPreview"
+        android:layout_width="380dp"
+        android:layout_height="390dp"
+       />
+
+
+    <EditText
+        android:id="@+id/Tekspesan"
+        android:layout_width="270dp"
+        android:layout_height="90dp"
+        android:hint="input pesan"
+        android:layout_marginTop="465dp"
+        android:background="#ffffff"
+      />
+
+
+
+    <Button
+        android:id="@+id/btnSimpan"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="Simpan"
+        android:textSize="12dp"
+        android:layout_marginTop="460dp"
+        android:layout_marginLeft="270dp"
+        />
+
+
+
+    <Button
+        android:id="@+id/btnBatal"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="batal"
+        android:textSize="12dp"
+        android:layout_marginTop="510dp"
+        android:layout_marginLeft="270dp"
+        />
+
+
+    
+</RelativeLayout>

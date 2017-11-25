@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#258e8e"
+    tools:context="com.example.ichwan.steganigrafivideo.DecodeActivity">
+
+    <Button
+
+        android:id="@+id/btnTakeVid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take video"
+        android:textSize="10dp"
+        android:layout_centerHorizontal="true" />
+
+    <VideoView
+        android:id="@+id/videoPreview2"
+        android:layout_below="@id/btnTakeVid"
+        android:layout_width="3800dp"
+        android:layout_height="400dp"
+
+       />
+    <EditText
+        android:id="@+id/Tekspesan"
+        android:layout_width="400dp"
+        android:layout_height="120dp"
+        android:background="#ffffff"
+        android:hint="Isi pesan"
+        android:layout_alignParentBottom="true"
+
+        />
+
+
+</RelativeLayout>

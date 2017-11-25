@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="hitam">#000000</color>
+    <color name="putih">#ffffff</color>
+    <color name="MidnightBlue">#191970</color>
+    <color name="DarkGreen">#006400</color>
+    <color name="DarkBlue">#00008B</color>
+    <color name="uangMasuk">#006400</color>
+    <color name="uangKeluar">#ff0000</color>
+    <color name="untukButton">#FF8C00</color>
+    <color name="alert">#FF4500</color>
+    <color name="facebook">#3b5998</color>
+
+    <color name="primary">#03A9F4</color>
+    <color name="primary_dark">#0288D1</color>
+    <color name="primary_light">#B3E5FC</color>
+    <color name="accent">#01579B</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#BDBDBD</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+</resources>

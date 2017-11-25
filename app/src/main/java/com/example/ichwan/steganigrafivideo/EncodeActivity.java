@@ -1,0 +1,314 @@
+package com.example.ichwan.steganigrafivideo;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.MediaController;
+import android.widget.Toast;
+import android.widget.VideoView;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+
+public class EncodeActivity extends AppCompatActivity {
+
+
+
+    // Activity request codes
+    private static final int CAMERA_CAPTURE_VIDEO_REQUEST_CODE = 200;
+    public static final int MEDIA_TYPE_VIDEO = 2;
+
+    // directory name to store captured videos
+    private static final String Video_DIRECTORY_NAME = "Aplikasi video";
+
+    private Uri fileUri;
+    private static Uri fileUriOut; // file url to store image/video
+
+
+    private VideoView videoPreview;
+    private Button btnRecordVideo, btnClear, btnSimpan;
+    private EditText editTextToClear, isiPesan ;
+    private MediaController mediacontroller;
+    String TAG = "com.ebookfrenzy.videoplayer";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_encode);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        videoPreview = (VideoView) findViewById(R.id.videoPreview);
+        editTextToClear = (EditText) findViewById(R.id.Tekspesan);
+        btnRecordVideo = (Button) findViewById(R.id.btnvideo);
+        btnClear = (Button) findViewById(R.id.btnBatal);
+        btnSimpan = (Button) findViewById(R.id.btnSimpan);
+        isiPesan= (EditText) findViewById(R.id.Tekspesan);
+
+        btnSimpan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sisipkanPesan();
+            }
+
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                editTextToClear.setText("");
+                //  imgPreview.setImageBitmap(null);
+            }
+        });
+          /*
+         * Record video button click event
+		 */
+        btnRecordVideo.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // record video
+                recordVideo();
+            }
+        });
+        // Checking camera availability
+        if (!isDeviceSupportCamera()) {
+            Toast.makeText(getApplicationContext(),
+                    "Sorry! Your device doesn't support camera",
+                    Toast.LENGTH_LONG).show();
+            // will close the app if the device does't have camera
+            finish();
+        }
+
+
+    }
+
+
+    /**
+     * Checking device has camera hardware or not
+     */
+    private boolean isDeviceSupportCamera() {
+        if (getApplicationContext().getPackageManager().hasSystemFeature(
+                PackageManager.FEATURE_CAMERA)) {
+            // this device has a camera
+            return true;
+        } else {
+            // no camera on this device
+            return false;
+        }
+    }
+
+    /*
+
+   * Here we store the file url as it will be null after returning from camera
+   * app
+   */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // save file url in bundle as it will be null on scren orientation
+        // changes
+        outState.putParcelable("file_uri", fileUri);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // get the file url
+        fileUri = savedInstanceState.getParcelable("file_uri");
+    }
+
+    private void recordVideo() {
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
+
+        // set video quality
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file
+        // name
+
+        // start the video capture Intent
+        startActivityForResult(intent, CAMERA_CAPTURE_VIDEO_REQUEST_CODE);
+    }
+
+    /**
+     * Receiving activity result method will be called after closing the camera
+     */
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_CAPTURE_VIDEO_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                // video successfully recorded
+                // preview the recorded video
+                Toast.makeText(this,fileUri.getPath(),Toast.LENGTH_LONG).show();
+                previewVideo();
+            } else if (resultCode == RESULT_CANCELED) {
+                // user cancelled recording
+                Toast.makeText(getApplicationContext(),
+                        "User cancelled video recording", Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                // failed to record video
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! Failed to record video", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
+
+    /*
+             * Previewing recorded video
+             */
+    private void previewVideo() {
+        try {
+
+            // Boolean canPauseVideo = videoPreview.canPause();
+            videoPreview.setVisibility(View.VISIBLE);
+            videoPreview.setVideoPath(fileUri.getPath());
+            // start playing
+
+            mediacontroller = new MediaController(this);
+            mediacontroller.setMediaPlayer(videoPreview);
+            mediacontroller.setAnchorView(videoPreview);
+            videoPreview.setMediaController(mediacontroller);
+            videoPreview.start();
+            videoPreview.canPause();
+            videoPreview.requestFocus();
+            videoPreview.stopPlayback();
+            videoPreview.resume();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * ------------ Helper Methods ----------------------
+     */
+
+
+    /*
+     * Creating file uri to store image/video
+	 */
+    public Uri getOutputMediaFileUri(int type) {
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    /*
+    * returning  video
+    */
+    private static File getOutputMediaFile(int type) {
+
+        // External sdcard location
+        File mediaStorageDir = new File(
+                Environment
+                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                Video_DIRECTORY_NAME);
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+//                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create"
+//                        + IMAGE_DIRECTORY_NAME + "directory");
+                return null;
+
+//                log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
+//                        + IMAGE_DIRECTORY_NAME + " directory");
+//                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                Locale.getDefault()).format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_VIDEO) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator
+                    + "VID_" + timeStamp + ".mp4");
+            fileUriOut = Uri.fromFile(new File(mediaStorageDir+File.separator+"VID_"+timeStamp+"_ENCODE.mp4"));
+        } else {
+            return null;
+        }
+
+        return mediaFile;
+
+
+    }
+
+    private void sisipkanPesan() {
+        try {
+            int i = Steganography.embbeded(fileUri.getPath(),fileUriOut.getPath(),isiPesan.getText().toString());
+            if( i == Steganography.BERHASIL){
+//                Toast.makeText(getApplicationContext(), "Berhasil Menyimpan Data",
+//                        Toast.LENGTH_SHORT).show();
+                AlertDialog builder= new AlertDialog.Builder(EncodeActivity.this).create();
+                builder.setTitle("Message");
+                builder.setMessage("Pesan Berhasil Disimpan");
+                builder.setButton(DialogInterface.BUTTON_POSITIVE,"OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface EncodeActivity, int which) {
+                     editTextToClear.setText("");
+
+                    }
+                });
+
+
+                builder.show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Gagal Menyimpan Data",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        try {
+//            int i = Steganography.embbeded(File.ge().trim(),  isiPesan.getText());
+//            if(i == Steganography.BERHASIL){
+//                Toast.makeText(getApplicationContext(), "Berhasil Menyimpan Data",
+//                        Toast.LENGTH_SHORT).show();
+//
+//                return;
+//            }else{
+//                Toast.makeText(getApplicationContext(), "Gagal Menyimpan Data",
+//                        Toast.LENGTH_SHORT).show();
+//                return ;
+//            }
+//
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+}
+

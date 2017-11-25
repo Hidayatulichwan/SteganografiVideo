@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#258e8e"
+    android:orientation="vertical"
+    tools:context="com.example.ichwan.steganigrafivideo.HelpActivity">
+
+    <TextView
+        android:id="@+id/mTVhbd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Petunjuk Penggunaan Aplikasi"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="90dp"
+            android:layout_marginLeft="10dp"
+            android:background="@color/MidnightBlue"
+            android:text="
+
+
+ENCODE"
+            android:textColor="#ffffff" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="90dp"
+                android:background="@color/facebook"
+                android:text="Tombol ENCODE berfungsi untuk menyisipkan pesan rahasia kedalam video hasil rekaman.Ketika akan menyisipkan  pesan maka pengguna harus membuat rekaman video dulu"
+                android:textColor="#ffffff"
+                android:textSize="14dp" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="10dp"
+            android:background="@color/MidnightBlue"
+            android:text="
+
+
+ DECODE"
+            android:textColor="#ffffff" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="80dp"
+                android:background="@color/facebook"
+                android:text="Tombol DECODE berfungsi untuk melihat isi pesan dalam video, apakah video tersebut terdapat pesan atau tidak."
+                android:textColor="#ffffff"
+                android:textSize="14dp" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:background="@color/MidnightBlue"
+            android:text="HELP"
+            android:textColor="#ffffff" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:background="@color/facebook"
+                android:text="Tombol HELP berfungsi untuk melihat petunjuk penggunaan APLIKASI"
+                android:textColor="#ffffff"
+                android:textSize="14dp" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:background="@color/MidnightBlue"
+            android:text="ABOUT"
+            android:textColor="#ffffff" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:background="@color/facebook"
+                android:text="Tombol ABOUT berfungsi untuk melihat PROFIL pembuat aplikasi."
+                android:textColor="#ffffff"
+                android:textSize="14dp" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:background="@color/MidnightBlue"
+            android:text="EXIT"
+            android:textColor="#ffffff" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:background="@color/facebook"
+                android:text="Tombol EXIT berfungsi untuk keluar dari aplikasi"
+                android:textColor="#ffffff"
+                android:textSize="14dp" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
