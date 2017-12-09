@@ -35,6 +35,7 @@
         android:id="@+id/videoPreview"
         android:layout_width="380dp"
         android:layout_height="390dp"
+         android:layout_marginBottom="4dp"
        />
 
 
@@ -42,8 +43,8 @@
         android:id="@+id/Tekspesan"
         android:layout_width="270dp"
         android:layout_height="90dp"
-        android:hint="input pesan"
-        android:layout_marginTop="465dp"
+        android:gravity="top"
+        android:layout_below="@+id/videoPreview"
         android:background="#ffffff"
       />
 

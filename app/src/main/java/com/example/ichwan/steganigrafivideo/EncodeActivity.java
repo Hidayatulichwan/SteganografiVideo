@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -26,23 +28,20 @@ import java.util.Locale;
 public class EncodeActivity extends AppCompatActivity {
 
 
-
     // Activity request codes
     private static final int CAMERA_CAPTURE_VIDEO_REQUEST_CODE = 200;
     public static final int MEDIA_TYPE_VIDEO = 2;
 
     // directory name to store captured videos
     private static final String Video_DIRECTORY_NAME = "Aplikasi video";
-
     private Uri fileUri;
     private static Uri fileUriOut; // file url to store image/video
-
-
     private VideoView videoPreview;
     private Button btnRecordVideo, btnClear, btnSimpan;
-    private EditText editTextToClear, isiPesan ;
+    private EditText editTextToClear, isiPesan;
     private MediaController mediacontroller;
     String TAG = "com.ebookfrenzy.videoplayer";
+    DisplayMetrics dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class EncodeActivity extends AppCompatActivity {
         btnRecordVideo = (Button) findViewById(R.id.btnvideo);
         btnClear = (Button) findViewById(R.id.btnBatal);
         btnSimpan = (Button) findViewById(R.id.btnSimpan);
-        isiPesan= (EditText) findViewById(R.id.Tekspesan);
+        isiPesan = (EditText) findViewById(R.id.Tekspesan);
 
         btnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +70,10 @@ public class EncodeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editTextToClear.setText("");
+                File videoFile = new File(fileUri.getPath());
+                videoFile.delete();
+                videoPreview=null;
+
                 //  imgPreview.setImageBitmap(null);
             }
         });
@@ -150,12 +153,15 @@ public class EncodeActivity extends AppCompatActivity {
     /**
      * Receiving activity result method will be called after closing the camera
      */
+
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_CAPTURE_VIDEO_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // video successfully recorded
                 // preview the recorded video
-                Toast.makeText(this,fileUri.getPath(),Toast.LENGTH_LONG).show();
+                Toast.makeText(this, fileUri.getPath(), Toast.LENGTH_LONG).show();
                 previewVideo();
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled recording
@@ -175,12 +181,19 @@ public class EncodeActivity extends AppCompatActivity {
              * Previewing recorded video
              */
     private void previewVideo() {
+        dm = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        int tinggi = dm.heightPixels;
+        int lebar = dm.widthPixels;
         try {
 
             // Boolean canPauseVideo = videoPreview.canPause();
             videoPreview.setVisibility(View.VISIBLE);
             videoPreview.setVideoPath(fileUri.getPath());
             // start playing
+            videoPreview.setMinimumHeight(tinggi);
+            videoPreview.setMinimumWidth(lebar);
 
             mediacontroller = new MediaController(this);
             mediacontroller.setMediaPlayer(videoPreview);
@@ -217,7 +230,7 @@ public class EncodeActivity extends AppCompatActivity {
         // External sdcard location
         File mediaStorageDir = new File(
                 Environment
-                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES),
                 Video_DIRECTORY_NAME);
 
         // Create the storage directory if it does not exist
@@ -240,11 +253,10 @@ public class EncodeActivity extends AppCompatActivity {
         if (type == MEDIA_TYPE_VIDEO) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + "VID_" + timeStamp + ".mp4");
-            fileUriOut = Uri.fromFile(new File(mediaStorageDir+File.separator+"VID_"+timeStamp+"_ENCODE.mp4"));
+            fileUriOut = Uri.fromFile(new File(mediaStorageDir + File.separator + "VID_" + timeStamp + "_ENCODE.mp4"));
         } else {
             return null;
         }
-
         return mediaFile;
 
 
@@ -252,30 +264,37 @@ public class EncodeActivity extends AppCompatActivity {
 
     private void sisipkanPesan() {
         try {
-            int i = Steganography.embbeded(fileUri.getPath(),fileUriOut.getPath(),isiPesan.getText().toString());
-            if( i == Steganography.BERHASIL){
+            int i = Steganography.embbeded(fileUri.getPath(), fileUriOut.getPath(), isiPesan.getText().toString());
+            if (i == Steganography.BERHASIL) {
 //                Toast.makeText(getApplicationContext(), "Berhasil Menyimpan Data",
 //                        Toast.LENGTH_SHORT).show();
-                AlertDialog builder= new AlertDialog.Builder(EncodeActivity.this).create();
-                builder.setTitle("Message");
+                AlertDialog builder = new AlertDialog.Builder(EncodeActivity.this).create();
+                builder.setTitle("Message Success");
                 builder.setMessage("Pesan Berhasil Disimpan");
-                builder.setButton(DialogInterface.BUTTON_POSITIVE,"OK", new DialogInterface.OnClickListener() {
+                builder.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface EncodeActivity, int which) {
-                     editTextToClear.setText("");
+                        editTextToClear.setText("");
+                        File videoFile = new File(fileUri.getPath());
+                        videoFile.delete();
 
                     }
                 });
-
-
                 builder.show();
-            }else{
-                Toast.makeText(getApplicationContext(), "Gagal Menyimpan Data",
-                        Toast.LENGTH_SHORT).show();
-                return;
             }
         } catch (IOException e) {
             e.printStackTrace();
+            AlertDialog Gagal = new AlertDialog.Builder(EncodeActivity.this).create();
+            Gagal.setTitle("Message Error");
+            Gagal.setMessage("Sudah Ada Data");
+            Gagal.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface EncodeActivity, int which) {
+
+                }
+            });
+            Gagal.show();
+
         }
 //        try {
 //            int i = Steganography.embbeded(File.ge().trim(),  isiPesan.getText());
@@ -297,6 +316,13 @@ public class EncodeActivity extends AppCompatActivity {
 
 
     }
+
+
+//    public void DeleteVideo(){
+//        File videoFile = new File(fileUri.getPath());
+//        videoFile.delete();
+//
+//    }
 
 
     @Override

@@ -112,37 +112,37 @@ public class Steganography {
         }
         return data;
     }
-
-    public static byte[] search(byte[] arr, byte[] sea, int length) {
-        int index = Bytes.indexOf(arr, sea);
-        byte[] size = Arrays.copyOfRange(arr, index - 4, index);
-        int i = Integer.parseInt(Steganography.byteArrayToHex(size), 16);
-        System.out.println("i:" + i);
-        byte[] a = Arrays.copyOfRange(arr, (index + 12), (index + i - 4));
-        byte[] awal = Arrays.copyOfRange(arr, 0, (index + 12));
-        byte[] akhir = Arrays.copyOfRange(arr, (index + i - 4), arr.length);
-        int entries = a.length / 4;
-//        System.out.println("entries:" + entries);
-//        System.out.println(Main.bytesToHex(a));
-        System.out.println("===================REPLACE BYTE STCO===========================");
-        for (int b = 0; b < entries; b++) {
-            int m = b * 4;
-            byte[] search = Arrays.copyOfRange(a, m, m + 4);
-            int c = Integer.parseInt(Steganography.byteArrayToHex(search), 16);
-            String bufHex = Integer.toHexString(c + length);
-            byte[] sizeByte = Steganography.hexStringToByteArray(Steganography.panjangData(bufHex));
-            for (int d = 0; d < sizeByte.length; d++) {
-                a[m] = sizeByte[d];
-                m++;
-            }
-
-        }
-        byte[] temp = concatenateByteArrays(awal, a);
-        return concatenateByteArrays(temp, akhir);
-//        System.out.println(Main.bytesToHex(a));
-//        System.out.println("================================================");
-//        return a;
-    }
+//
+//    public static byte[] search(byte[] arr, byte[] sea, int length) {
+//        int index = Bytes.indexOf(arr, sea);
+//        byte[] size = Arrays.copyOfRange(arr, index - 4, index);
+//        int i = Integer.parseInt(Steganography.byteArrayToHex(size), 16);
+//        System.out.println("i:" + i);
+//        byte[] a = Arrays.copyOfRange(arr, (index + 12), (index + i - 4));
+//        byte[] awal = Arrays.copyOfRange(arr, 0, (index + 12));
+//        byte[] akhir = Arrays.copyOfRange(arr, (index + i - 4), arr.length);
+//        int entries = a.length / 4;
+////        System.out.println("entries:" + entries);
+////        System.out.println(Main.bytesToHex(a));
+//        System.out.println("===================REPLACE BYTE STCO===========================");
+//        for (int b = 0; b < entries; b++) {
+//            int m = b * 4;
+//            byte[] search = Arrays.copyOfRange(a, m, m + 4);
+//            int c = Integer.parseInt(Steganography.byteArrayToHex(search), 16);
+//            String bufHex = Integer.toHexString(c + length);
+//            byte[] sizeByte = Steganography.hexStringToByteArray(Steganography.panjangData(bufHex));
+//            for (int d = 0; d < sizeByte.length; d++) {
+//                a[m] = sizeByte[d];
+//                m++;
+//            }
+//
+//        }
+//        byte[] temp = concatenateByteArrays(awal, a);
+//        return concatenateByteArrays(temp, akhir);
+////        System.out.println(Main.bytesToHex(a));
+////        System.out.println("================================================");
+////        return a;
+//    }
 
     public static byte[] searchAll(byte[] arr, byte[] sea, int length) {
         int l = 0;
