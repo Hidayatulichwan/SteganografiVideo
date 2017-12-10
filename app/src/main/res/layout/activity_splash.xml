@@ -9,7 +9,7 @@
     <ImageView
         android:layout_centerInParent="true"
         android:layout_width="400dp"
-        android:layout_height="360dp"
+        android:layout_height="150dp"
         android:src="@drawable/icon"/>
     <ProgressBar
         android:id="@+id/progresBar1"

@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +43,7 @@ public class EncodeActivity extends AppCompatActivity {
     private MediaController mediacontroller;
     String TAG = "com.ebookfrenzy.videoplayer";
     DisplayMetrics dm;
+    String srchPath =null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +62,28 @@ public class EncodeActivity extends AppCompatActivity {
         btnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sisipkanPesan();
+
+
+                if (fileUri == null) {
+                    AlertDialog Gagal = new AlertDialog.Builder(EncodeActivity.this).create();
+                    Gagal.setTitle("Message Error");
+                    Gagal.setMessage("Video Is Empty!");
+                    Gagal.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface EncodeActivity, int which) {
+
+                        }
+                    });
+                    Gagal.show();
+
+
+            }else {
+                    sisipkanPesan();
+                }
             }
 
         });
+
 
         btnClear.setOnClickListener(new View.OnClickListener() {
 
@@ -72,7 +92,7 @@ public class EncodeActivity extends AppCompatActivity {
                 editTextToClear.setText("");
                 File videoFile = new File(fileUri.getPath());
                 videoFile.delete();
-                videoPreview=null;
+                cleanupVideo();
 
                 //  imgPreview.setImageBitmap(null);
             }
@@ -100,7 +120,15 @@ public class EncodeActivity extends AppCompatActivity {
 
     }
 
-
+    private void cleanupVideo(){
+        if(videoPreview.getVisibility() == View.VISIBLE){
+            videoPreview.stopPlayback();
+            videoPreview.clearAnimation();
+            videoPreview.suspend(); // clears media player
+            videoPreview.setVideoURI(null);
+           //x mVideoViewButton.setVisibility(View.VISIBLE);
+        }
+    }
     /**
      * Checking device has camera hardware or not
      */
@@ -265,22 +293,36 @@ public class EncodeActivity extends AppCompatActivity {
     private void sisipkanPesan() {
         try {
             int i = Steganography.embbeded(fileUri.getPath(), fileUriOut.getPath(), isiPesan.getText().toString());
-            if (i == Steganography.BERHASIL) {
-//                Toast.makeText(getApplicationContext(), "Berhasil Menyimpan Data",
-//                        Toast.LENGTH_SHORT).show();
-                AlertDialog builder = new AlertDialog.Builder(EncodeActivity.this).create();
-                builder.setTitle("Message Success");
-                builder.setMessage("Pesan Berhasil Disimpan");
-                builder.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface EncodeActivity, int which) {
-                        editTextToClear.setText("");
-                        File videoFile = new File(fileUri.getPath());
-                        videoFile.delete();
+            String Pesan=isiPesan.getText().toString();
 
-                    }
-                });
-                builder.show();
+
+            if (i == Steganography.BERHASIL) {
+                if(Pesan.trim().equals("")){
+                    Toast.makeText(this, "Masukan Pesan! ", Toast.LENGTH_SHORT).show();
+                    return;
+
+//                }else if(fileUri == null){
+//
+//                    Toast.makeText(this, "Rekam Video! ", Toast.LENGTH_SHORT).show();
+//                    return;
+                }
+
+                else {
+                    AlertDialog builder = new AlertDialog.Builder(EncodeActivity.this).create();
+                    builder.setTitle("Message Success");
+                    builder.setMessage("Pesan Berhasil Disimpan");
+                    builder.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface EncodeActivity, int which) {
+                            editTextToClear.setText("");
+                            File videoFile = new File(fileUri.getPath());
+                            videoFile.delete();
+
+                        }
+                    });
+                    builder.show();
+                }
+
             }
         } catch (IOException e) {
             e.printStackTrace();
