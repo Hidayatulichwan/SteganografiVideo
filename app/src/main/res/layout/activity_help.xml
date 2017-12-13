@@ -33,7 +33,7 @@
             android:text="
 
 
-ENCODE"
+EMBED"
             android:textColor="#ffffff" />
 
         <LinearLayout
@@ -46,7 +46,7 @@ ENCODE"
                 android:layout_width="250dp"
                 android:layout_height="90dp"
                 android:background="@color/facebook"
-                android:text="Tombol ENCODE berfungsi untuk menyisipkan pesan rahasia kedalam video hasil rekaman.Ketika akan menyisipkan  pesan maka pengguna harus membuat rekaman video dulu"
+                android:text="Tombol EMBED berfungsi untuk menyisipkan pesan rahasia kedalam video hasil rekaman.Ketika akan menyisipkan  pesan maka pengguna harus membuat rekaman video dulu"
                 android:textColor="#ffffff"
                 android:textSize="14dp" />
 
@@ -67,8 +67,7 @@ ENCODE"
             android:background="@color/MidnightBlue"
             android:text="
 
-
- DECODE"
+ RETRIEVE"
             android:textColor="#ffffff" />
 
         <LinearLayout
@@ -81,7 +80,7 @@ ENCODE"
                 android:layout_width="250dp"
                 android:layout_height="80dp"
                 android:background="@color/facebook"
-                android:text="Tombol DECODE berfungsi untuk melihat isi pesan dalam video, apakah video tersebut terdapat pesan atau tidak."
+                android:text="Tombol RETRIEVE berfungsi untuk melihat isi pesan dalam video, apakah video tersebut terdapat pesan atau tidak."
                 android:textColor="#ffffff"
                 android:textSize="14dp" />
 

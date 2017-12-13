@@ -23,7 +23,7 @@
         android:id="@+id/btnEncode"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:text="Encode"
+        android:text="Embed"
         android:onClick="onClickEncode"
         android:gravity="center"
         android:layout_marginTop="12dp"
@@ -37,7 +37,7 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginLeft="30dp"
-        android:text="Decode"
+        android:text="Retrieve"
         android:onClick="onClickDecode"
         android:layout_below="@+id/btnEncode"
         />

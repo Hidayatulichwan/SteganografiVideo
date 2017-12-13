@@ -39,11 +39,10 @@ public class EncodeActivity extends AppCompatActivity {
     private static Uri fileUriOut; // file url to store image/video
     private VideoView videoPreview;
     private Button btnRecordVideo, btnClear, btnSimpan;
-    private EditText editTextToClear, isiPesan;
+    private EditText editTextToClear, isiPesan, isiKey;
     private MediaController mediacontroller;
-    String TAG = "com.ebookfrenzy.videoplayer";
     DisplayMetrics dm;
-    String srchPath =null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,18 +52,28 @@ public class EncodeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         videoPreview = (VideoView) findViewById(R.id.videoPreview);
-        editTextToClear = (EditText) findViewById(R.id.Tekspesan);
+
         btnRecordVideo = (Button) findViewById(R.id.btnvideo);
         btnClear = (Button) findViewById(R.id.btnBatal);
         btnSimpan = (Button) findViewById(R.id.btnSimpan);
         isiPesan = (EditText) findViewById(R.id.Tekspesan);
+        isiKey = (EditText) findViewById(R.id.isiKey);
+        if(isiKey.getText().toString().length()==0) {
+            isiKey.setError("Key isi dengan 8 karakter!");
+        }
 
         btnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                String strkey = isiKey.getText().toString().trim();
+                String chiperTeksDes = null;
 
-                if (fileUri == null) {
+
+                if (strkey.length() == 8) {
+                   // isiPesan.setText(chiperTeksDes);
+                    sisipkanPesan();
+                } else if (fileUri == null) {
                     AlertDialog Gagal = new AlertDialog.Builder(EncodeActivity.this).create();
                     Gagal.setTitle("Message Error");
                     Gagal.setMessage("Video Is Empty!");
@@ -77,8 +86,19 @@ public class EncodeActivity extends AppCompatActivity {
                     Gagal.show();
 
 
-            }else {
-                    sisipkanPesan();
+                } else {
+                    AlertDialog salah = new AlertDialog.Builder(EncodeActivity.this).create();
+                    salah.setTitle("Error Message");
+                    salah.setMessage("Keyn atau kunci Harus 8 karakter");
+
+                    salah.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface EncodeActivity, int which) {
+
+                        }
+                    });
+                    salah.show();
+
                 }
             }
 
@@ -89,10 +109,12 @@ public class EncodeActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                editTextToClear.setText("");
-                File videoFile = new File(fileUri.getPath());
-                videoFile.delete();
-                cleanupVideo();
+                isiPesan.setText("");
+                isiKey.setText("");
+//
+//                File videoFile = new File(fileUri.getPath());
+//                videoFile.delete();
+//                cleanupVideo();
 
                 //  imgPreview.setImageBitmap(null);
             }
@@ -120,15 +142,16 @@ public class EncodeActivity extends AppCompatActivity {
 
     }
 
-    private void cleanupVideo(){
-        if(videoPreview.getVisibility() == View.VISIBLE){
+    private void cleanupVideo() {
+        if (videoPreview.getVisibility() == View.VISIBLE) {
             videoPreview.stopPlayback();
             videoPreview.clearAnimation();
             videoPreview.suspend(); // clears media player
             videoPreview.setVideoURI(null);
-           //x mVideoViewButton.setVisibility(View.VISIBLE);
+            //x mVideoViewButton.setVisibility(View.VISIBLE);
         }
     }
+
     /**
      * Checking device has camera hardware or not
      */
@@ -183,7 +206,6 @@ public class EncodeActivity extends AppCompatActivity {
      */
 
 
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_CAPTURE_VIDEO_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
@@ -222,7 +244,6 @@ public class EncodeActivity extends AppCompatActivity {
             // start playing
             videoPreview.setMinimumHeight(tinggi);
             videoPreview.setMinimumWidth(lebar);
-
             mediacontroller = new MediaController(this);
             mediacontroller.setMediaPlayer(videoPreview);
             mediacontroller.setAnchorView(videoPreview);
@@ -293,28 +314,29 @@ public class EncodeActivity extends AppCompatActivity {
     private void sisipkanPesan() {
         try {
             int i = Steganography.embbeded(fileUri.getPath(), fileUriOut.getPath(), isiPesan.getText().toString());
-            String Pesan=isiPesan.getText().toString();
+            String Pesan = isiPesan.getText().toString();
 
 
             if (i == Steganography.BERHASIL) {
-                if(Pesan.trim().equals("")){
+                if (Pesan.trim().equals("")) {
                     Toast.makeText(this, "Masukan Pesan! ", Toast.LENGTH_SHORT).show();
+
+
                     return;
 
 //                }else if(fileUri == null){
 //
 //                    Toast.makeText(this, "Rekam Video! ", Toast.LENGTH_SHORT).show();
 //                    return;
-                }
-
-                else {
+                } else {
                     AlertDialog builder = new AlertDialog.Builder(EncodeActivity.this).create();
                     builder.setTitle("Message Success");
                     builder.setMessage("Pesan Berhasil Disimpan");
                     builder.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface EncodeActivity, int which) {
-                            editTextToClear.setText("");
+                            isiPesan.setText("");
+                            isiKey.setText("");
                             File videoFile = new File(fileUri.getPath());
                             videoFile.delete();
 

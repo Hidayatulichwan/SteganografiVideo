@@ -12,17 +12,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:text="Take video"
+        android:textSize="10dp" />
+
+    <EditText
+        android:id="@+id/isiKey"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="7dp"
+        android:maxLength="8"
+        android:minLines="8"
+        android:layout_marginLeft="110dp"
+        android:hint="Isi Key"
+        android:background="#ffffff"
+        android:gravity="top" />
+
+    <Button
+        android:id="@+id/btnDecText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="270dp"
+        android:layout_alignParentTop="true"
+        android:text="Retrieve"
         android:textSize="10dp" />
 
     <VideoView
         android:id="@+id/videoPreview2"
-        android:layout_below="@id/btnTakeVid"
         android:layout_width="380dp"
         android:layout_height="350dp"
-
-       />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnTakeVid" />
 
     <TextView
         android:id="@+id/info"
@@ -41,20 +61,20 @@
             android:layout_height="fill_parent"
             android:layout_margin="2dp"
             android:orientation="vertical">
-        <TextView
-            android:id="@+id/outputTeks"
-            android:layout_width="400dp"
-            android:layout_height="200dp"
-            android:background="#ffffff"
-            android:hint="Isi pesan"
-            android:layout_alignParentBottom="true"/>
 
         </RelativeLayout>
 
     </ScrollView>
 
-
-
+    <TextView
+        android:id="@+id/outputTeks"
+        android:layout_width="400dp"
+        android:layout_height="200dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/info"
+        android:background="#ffffff"
+        android:hint="Isi pesan" />
 
 
 </RelativeLayout>
