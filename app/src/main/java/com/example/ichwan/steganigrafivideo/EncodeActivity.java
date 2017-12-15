@@ -89,7 +89,7 @@ public class EncodeActivity extends AppCompatActivity {
                 } else {
                     AlertDialog salah = new AlertDialog.Builder(EncodeActivity.this).create();
                     salah.setTitle("Error Message");
-                    salah.setMessage("Keyn atau kunci Harus 8 karakter");
+                    salah.setMessage("Key atau kunci Harus 8 karakter");
 
                     salah.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                         @Override

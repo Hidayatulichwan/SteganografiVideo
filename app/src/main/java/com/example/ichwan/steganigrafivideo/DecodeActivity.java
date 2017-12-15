@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.MediaController;
 import android.view.View;
 import android.widget.TextView;
@@ -32,9 +33,10 @@ public class DecodeActivity extends AppCompatActivity {
     private Uri fileUri;
     String tempat;
     DisplayMetrics dm;
-    private Button btnTakeVid;
+    private Button btnTakeVid, mbtnRetrieve;
     private VideoView videoPreview2;
     private MediaController mediacontroller;
+    private EditText isiKey;
     private TextView outputTexs, info;
     String srcPath = null;
     String convertedPath;
@@ -45,19 +47,62 @@ public class DecodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_decode);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         btnTakeVid = (Button) findViewById(R.id.btnTakeVid);
+        mbtnRetrieve = (Button) findViewById(R.id.btnRetrieve);
         outputTexs = (TextView) findViewById(R.id.outputTeks);
+        isiKey = (EditText) findViewById(R.id.isiKey2);
         info = (TextView) findViewById(R.id.info);
         videoPreview2 = (VideoView) findViewById(R.id.videoPreview2);
         btnTakeVid.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
                 Takevideo();
+                //  outputTexs.setText("");
             }
         });
 
+        mbtnRetrieve.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String strkey = isiKey.getText().toString().trim();
+                String chiperTeksDes = null;
+
+                if (strkey.length() == 8) {
+
+
+                    RetrieveTeks();
+                } else if (convertedPath == null) {
+                    AlertDialog Gagal = new AlertDialog.Builder(DecodeActivity.this).create();
+                    Gagal.setTitle("Message Error");
+                    Gagal.setMessage("Video Is Empty!");
+                    Gagal.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface EncodeActivity, int which) {
+
+                        }
+                    });
+                    Gagal.show();
+
+
+                }else {
+                    AlertDialog salah = new AlertDialog.Builder(DecodeActivity.this).create();
+                    salah.setTitle("Error Message");
+                    salah.setMessage("Key atau kunci Salah");
+
+                    salah.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface EncodeActivity, int which) {
+
+                        }
+                    });
+                    salah.show();
+
+                }
+            }
+        });
 
     }
 
@@ -71,6 +116,51 @@ public class DecodeActivity extends AppCompatActivity {
 
     }
 
+    public void RetrieveTeks() {
+
+        int i = 0;
+        try {
+            i = Steganography.retriveMessage(convertedPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (i == Steganography.SUDAH_ADA_DATA) {
+            outputTexs.setText("Pesan Asli : " + new String(Steganography.getMessage()) + "\n Setelah didecode :" +
+                    " ");
+            AlertDialog builder = new AlertDialog.Builder(DecodeActivity.this).create();
+            builder.setTitle("Message Success");
+            builder.setMessage("Pesan Berhasil Di Retrieve");
+            builder.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface DecodeActivity, int which) {
+
+
+                }
+            });
+            builder.show();
+
+
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    "Pesan tidak ditemukan!\",\n" + "\"Error!", Toast.LENGTH_SHORT)
+                    .show();
+            AlertDialog builder = new AlertDialog.Builder(DecodeActivity.this).create();
+            builder.setTitle("Message Error ");
+            builder.setMessage("Pesan Tidak di Temukan!");
+            builder.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface DecodeActivity, int which) {
+                        isiKey.setText("");
+                        outputTexs.setText("");
+
+                }
+            });
+            builder.show();
+
+        }
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -82,7 +172,6 @@ public class DecodeActivity extends AppCompatActivity {
                 Uri uri = data.getData();
                 convertedPath = getRealPathFromURI(uri);
                 //info.setText("Real Path: " + convertedPath + "\n");
-
                 videoPreview2.setVideoURI(uri);
                 videoPreview2.requestFocus();
                 videoPreview2.start();
@@ -93,25 +182,25 @@ public class DecodeActivity extends AppCompatActivity {
                 mediacontroller.setMediaPlayer(videoPreview2);
                 mediacontroller.setAnchorView(videoPreview2);
                 videoPreview2.setMediaController(mediacontroller);
-
-                int i = 0;
-                try {
-                    i = Steganography.retriveMessage(convertedPath);
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }if (i == Steganography.SUDAH_ADA_DATA) {
-                    outputTexs.setText("Pesn Asli : " + new String(Steganography.getMessage()) + "\n Setelah didecode :" +
-                                                        " ");
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Pesan tidak ditemukan!\",\n" + "\"Error!", Toast.LENGTH_SHORT)
-                            .show();
-                }
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "Video Tidak Dapat Di Buka\",\n" + "\"Error!", Toast.LENGTH_SHORT)
-                        .show();
+//
+//                int i = 0;
+//                try {
+//                    i = Steganography.retriveMessage(convertedPath);
+//                }
+//                catch (IOException e) {
+//                    e.printStackTrace();
+//                }if (i == Steganography.SUDAH_ADA_DATA) {
+//                    outputTexs.setText("Pesan Asli : " + new String(Steganography.getMessage()) + "\n Setelah didecode :" +
+//                                                        " ");
+//                } else {
+//                    Toast.makeText(getApplicationContext(),
+//                            "Pesan tidak ditemukan!\",\n" + "\"Error!", Toast.LENGTH_SHORT)
+//                            .show();
+//                }
+//            } else {
+//                Toast.makeText(getApplicationContext(),
+//                        "Video Tidak Dapat Di Buka\",\n" + "\"Error!", Toast.LENGTH_SHORT)
+//                        .show();
 
 
             }
@@ -120,9 +209,8 @@ public class DecodeActivity extends AppCompatActivity {
     }
 
 
-
     public String getRealPathFromURI(Uri contentUri) {
-        String[] proj = { MediaStore.Video.Media.DATA };
+        String[] proj = {MediaStore.Video.Media.DATA};
 
         //This method was deprecated in API level 11
         //Cursor cursor = managedQuery(contentUri, proj, null, null, null);
@@ -137,7 +225,6 @@ public class DecodeActivity extends AppCompatActivity {
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
-
 
 
     @Override

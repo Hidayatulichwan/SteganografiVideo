@@ -8,85 +8,181 @@
     tools:context="com.example.ichwan.steganigrafivideo.MainActivity">
 
 
-
     <TextView
         android:id="@+id/mTVhbd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="APLIKASI STEGANOGRAFI VIDEO"
-        android:layout_marginTop="20dp"
         android:textColor="#ffffff"
-        android:textStyle="bold"
-        android:textSize="15dp"/>
-    <Button
-        android:id="@+id/btnEncode"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:text="Embed"
-        android:onClick="onClickEncode"
-        android:gravity="center"
-        android:layout_marginTop="12dp"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/Menu1"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
         android:layout_below="@+id/mTVhbd"
-        android:layout_alignLeft="@+id/btnDecode"
-        android:layout_alignStart="@+id/btnDecode" />
+        android:layout_marginTop="15dp">
 
-    <Button
-        android:id="@+id/btnDecode"
-        android:gravity="center"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_marginLeft="30dp"
-        android:text="Retrieve"
-        android:onClick="onClickDecode"
-        android:layout_below="@+id/btnEncode"
-        />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btnHelp"
-        android:layout_width="300dp"
-        android:gravity="center"
-        android:layout_height="60dp"
-        android:layout_marginLeft="30dp"
-        android:text="Help"
-        android:onClick="onClickHelp"
-        android:layout_below="@+id/btnDecode"
+            <ImageButton
+                android:id="@+id/btnEncode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:background="#0e2e60"
+                android:gravity="center"
+                android:onClick="onClickEncode"
+                android:src="@drawable/embed1" />
+
+            <TextView
+                android:id="@+id/Teksembed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnEncode"
+                android:layout_marginLeft="50dp"
+                android:text="EMBED"
+                android:textColor="#ffffff"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btnDecode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="140dp"
+                android:background="#0e2e60"
+                android:onClick="onClickDecode"
+                android:src="@drawable/retrieve" />
+
+            <TextView
+                android:id="@+id/TeksRetrieve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnDecode"
+                android:layout_marginLeft="135dp"
+                android:text="RETRIEVE"
+                android:textColor="#ffffff"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
 
-        />
-    <Button
-        android:id="@+id/btnAbout"
-        android:layout_width="300dp"
-        android:gravity="center"
-        android:layout_height="60dp"
-        android:layout_marginLeft="30dp"
-        android:text="About"
-        android:onClick="onClickAbout"
-        android:layout_below="@+id/btnHelp"
+    </LinearLayout>
 
-
-        />
-
-    <Button
-        android:id="@+id/btnExit"
-        android:layout_width="300dp"
-        android:gravity="center"
-        android:layout_height="60dp"
-        android:layout_marginLeft="30dp"
+    <LinearLayout
+        android:id="@+id/Menu2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:text="Exit"
-        android:layout_below="@+id/btnAbout"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/Menu1"
+        android:layout_marginTop="14dp">
 
-        />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
+            <ImageButton
+                android:id="@+id/btnHelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:background="#0e2e60"
+                android:gravity="center"
+                android:onClick="onClickHelp"
+                android:src="@drawable/help" />
+
+            <TextView
+                android:id="@+id/TeksHelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnHelp"
+                android:layout_marginLeft="60dp"
+                android:text="HELP"
+                android:textColor="#ffffff"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btnAbout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="140dp"
+                android:background="#0e2e60"
+                android:gravity="center"
+                android:onClick="onClickAbout"
+                android:src="@drawable/about"
+                android:text="About" />
+
+            <TextView
+                android:id="@+id/TeksAbout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnAbout"
+                android:layout_marginLeft="150dp"
+                android:text="ABOUT"
+                android:textColor="#ffffff"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btnExit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Menu2"
+        android:layout_marginLeft="150dp"
+
+        android:background="#0e2e60"
+        android:src="@drawable/exit" />
+
+
+    <TextView
+        android:id="@+id/TextExit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnExit"
+        android:layout_marginLeft="170dp"
+        android:text="EXIT"
+        android:textColor="#ffffff"
+        android:textSize="15dp"
+        android:textStyle="bold" />
     <ImageView
-        android:gravity="center"
         android:id="@+id/mIVimages"
         android:layout_width="320dp"
         android:layout_height="150dp"
-        android:src="@drawable/logo2"
-        android:scaleType="centerCrop"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="370dp"/>
+        android:layout_marginTop="370dp"
+        android:gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mIVimages"
+        android:layout_centerHorizontal="true"
+        android:text="PT Pertamina EP (KSO PT Axis Sambidoyong Energi)"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>

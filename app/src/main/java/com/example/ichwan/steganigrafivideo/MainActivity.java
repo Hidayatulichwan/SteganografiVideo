@@ -11,16 +11,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnExit;
+    private ImageButton btnExit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnExit = (Button) findViewById(R.id.btnExit);
+        btnExit = (ImageButton) findViewById(R.id.btnExit);
 
         btnExit.setOnClickListener(new View.OnClickListener() {
 
@@ -54,13 +55,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void Exit() {
         new AlertDialog.Builder(this)
-                .setMessage("Apa kalian ingin Exit?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        MainActivity.this.finish();
-                    }
-                })
+        .setMessage("Are you sure you want to exit?")
+        .setCancelable(false)
+        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                MainActivity.this.finish();
+            }
+        })
                 .setNegativeButton("No", null)
                 .show();
     }
