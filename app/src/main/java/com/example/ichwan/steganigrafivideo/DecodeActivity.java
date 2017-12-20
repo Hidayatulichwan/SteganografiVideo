@@ -33,7 +33,7 @@ public class DecodeActivity extends AppCompatActivity {
     private Uri fileUri;
     String tempat;
     DisplayMetrics dm;
-    private Button btnTakeVid, mbtnRetrieve;
+    private Button btnBrowseVid, mbtnRetrieve;
     private VideoView videoPreview2;
     private MediaController mediacontroller;
     private EditText isiKey;
@@ -47,13 +47,13 @@ public class DecodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_decode);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        btnTakeVid = (Button) findViewById(R.id.btnTakeVid);
+        btnBrowseVid = (Button) findViewById(R.id.btnBrowseVid);
         mbtnRetrieve = (Button) findViewById(R.id.btnRetrieve);
         outputTexs = (TextView) findViewById(R.id.outputTeks);
         isiKey = (EditText) findViewById(R.id.isiKey2);
         info = (TextView) findViewById(R.id.info);
         videoPreview2 = (VideoView) findViewById(R.id.videoPreview2);
-        btnTakeVid.setOnClickListener(new View.OnClickListener() {
+        btnBrowseVid.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {

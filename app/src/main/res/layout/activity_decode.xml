@@ -6,50 +6,64 @@
     android:background="#0e2e60"
     tools:context="com.example.ichwan.steganigrafivideo.DecodeActivity">
 
-    <Button
+    <LinearLayout
+        android:id="@+id/menuA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        android:id="@+id/btnTakeVid"
+        <Button
+            android:id="@+id/btnBrowseVid"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="2dp"
+            android:text="Browse Video"
+            android:textSize="10dp" />
+
+        <EditText
+            android:id="@+id/isiKey2"
+            android:layout_width="130dp"
+            android:layout_height="30dp"
+            android:maxLength="8"
+            android:minLines="8"
+            android:hint="Isi Key"
+            android:layout_marginLeft="10dp"
+            android:background="#ffffff"
+            android:gravity="top" />
+        <Button
+            android:id="@+id/btnRetrieve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="12dp"
+            android:text="Retrieve"
+            android:textSize="10dp" />
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/menuB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="Take video"
-        android:textSize="10dp" />
+        android:layout_below="@+id/menuA">
 
-    <EditText
-        android:id="@+id/isiKey2"
-        android:layout_width="130dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="7dp"
-        android:maxLength="8"
-        android:minLines="8"
-        android:layout_marginLeft="110dp"
-        android:hint="Isi Key"
-        android:background="#ffffff"
-        android:gravity="top" />
+        <VideoView
+            android:id="@+id/videoPreview2"
+            android:layout_width="380dp"
+            android:layout_height="350dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            />
+    </RelativeLayout>
 
-    <Button
-        android:id="@+id/btnRetrieve"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="270dp"
-        android:layout_alignParentTop="true"
-        android:text="Retrieve"
-        android:textSize="10dp" />
-
-    <VideoView
-        android:id="@+id/videoPreview2"
-        android:layout_width="380dp"
-        android:layout_height="350dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/btnTakeVid" />
 
     <TextView
         android:id="@+id/info"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/divider"
-        android:layout_below="@+id/videoPreview2"/>
+        android:layout_below="@+id/menuB"/>
 
     <ScrollView
         android:layout_width="match_parent"
