@@ -53,7 +53,6 @@ public class EncodeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         videoPreview = (VideoView) findViewById(R.id.videoPreview);
-
         btnRecordVideo = (Button) findViewById(R.id.btnvideo);
         btnClear = (Button) findViewById(R.id.btnBatal);
         btnSimpan = (Button) findViewById(R.id.btnSimpan);
