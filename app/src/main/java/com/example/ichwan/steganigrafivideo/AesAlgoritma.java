@@ -11,13 +11,13 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AesAlgoritma {
 
-    String AES = "AES";
+    static String AES = "AES";
     private static byte[] key = {
             0x2d, 0x2a, 0x2d, 0x42, 0x55, 0x49, 0x4c, 0x44, 0x41, 0x43, 0x4f, 0x44, 0x45, 0x2d, 0x2a, 0x2d
     };
 
 
-    private String Encrypt(String Data, String Password) throws Exception {
+   public String Encrypt(String Data, String Password) throws Exception {
 
         SecretKeySpec key = generateKey(Password);
         Cipher c = Cipher.getInstance(AES);
@@ -27,18 +27,18 @@ public class AesAlgoritma {
         return encryptedValue;
     }
 
-    private String decrypt(String OutputString, String Password) throws Exception {
+    public String decrypt(String OutputString, String Password) throws Exception {
         SecretKeySpec key = generateKey(Password);
         Cipher c = Cipher.getInstance(AES);
         c.init(Cipher.DECRYPT_MODE, key);
         byte[] decodeValue = android.util.Base64.decode(OutputString, android.util.Base64.DEFAULT);
         byte[] decValue = c.doFinal(decodeValue);
         String decryptedValue = new String(decValue);
-        return decryptedValue;
+        return  decryptedValue;
     }
 
 
-    private SecretKeySpec generateKey(String Password) throws Exception {
+    public SecretKeySpec generateKey(String Password) throws Exception {
         final MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] bytes = Password.getBytes("UTF-8");
         // byte[] bytes = new byte[16];

@@ -41,6 +41,7 @@ public class EncodeActivity extends AppCompatActivity {
     private Button btnRecordVideo, btnClear, btnSimpan;
     private EditText editTextToClear, isiPesan, isiKey;
     private MediaController mediacontroller;
+    String OutputString;
     DisplayMetrics dm;
 
 
@@ -58,20 +59,16 @@ public class EncodeActivity extends AppCompatActivity {
         btnSimpan = (Button) findViewById(R.id.btnSimpan);
         isiPesan = (EditText) findViewById(R.id.Tekspesan);
         isiKey = (EditText) findViewById(R.id.isiKey);
-        if(isiKey.getText().toString().length()==0) {
+        if (isiKey.getText().toString().length() == 0) {
             isiKey.setError("Key isi dengan 8 karakter!");
         }
 
         btnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String strkey = isiKey.getText().toString().trim();
-                String chiperTeksDes = null;
-
-
                 if (strkey.length() == 8) {
-                   // isiPesan.setText(chiperTeksDes);
+                    // isiPesan.setText(chiperTeksDes);
                     sisipkanPesan();
                 } else if (fileUri == null) {
                     AlertDialog Gagal = new AlertDialog.Builder(EncodeActivity.this).create();
