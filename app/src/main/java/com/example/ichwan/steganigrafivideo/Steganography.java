@@ -21,8 +21,8 @@ public class Steganography {
     public static final int GAGAL = 1;
     public static final int SUDAH_ADA_DATA = 2;
     public static final int TIDAK_ADA_DATA = 3;
-
     private static byte[] _message ;
+    AesAlgoritma aess=new AesAlgoritma();
 
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
@@ -237,7 +237,7 @@ public class Steganography {
 
             byte[] k = Steganography.concatenateByteArrays(a, sizeByte);
             byte[] l = Steganography.concatenateByteArrays(k, ("free").getBytes());
-            byte[] m = Steganography.concatenateByteArrays(l,message.getBytes());
+            byte[] m = Steganography.concatenateByteArrays(l,(message.getBytes()));
             byte[] n = Steganography.concatenateByteArrays(m, b);
 ////
             byteOut.write(n);

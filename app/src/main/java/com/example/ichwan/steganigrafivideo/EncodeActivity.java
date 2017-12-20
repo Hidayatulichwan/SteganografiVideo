@@ -43,7 +43,7 @@ public class EncodeActivity extends AppCompatActivity {
     private MediaController mediacontroller;
     String OutputString;
     DisplayMetrics dm;
-
+    AesAlgoritma aess=new AesAlgoritma();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
