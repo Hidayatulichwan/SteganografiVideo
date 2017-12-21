@@ -199,14 +199,11 @@ public class Steganography {
             int i = Integer.parseInt(Steganography.byteArrayToHex(size), 16);
             if (i <= 8) {
                 int sizeData = message.length();
-
                 byte[] arr = Steganography.searchAll(byteArrayIn, "stco".getBytes(), sizeData);
                 byte[] a = Arrays.copyOf(arr, index - 4);
                 byte[] b = Arrays.copyOfRange(arr, (index - 4) + i, byteArrayIn.length);
-
                 String bufHex = Integer.toHexString(sizeData + 4 + 4);
                 byte[] sizeByte = Steganography.hexStringToByteArray(Steganography.panjangData(bufHex));
-
                 byte[] k = Steganography.concatenateByteArrays(a, sizeByte);
                 byte[] l = Steganography.concatenateByteArrays(k, ("free").getBytes());
                 byte[] m = Steganography.concatenateByteArrays(l, message.getBytes());
@@ -267,7 +264,7 @@ public class Steganography {
             System.out.println("i : " + i);
             if (i > 8) {
 
-                Steganography._message = Arrays.copyOfRange(byteArrayIn, index + 4, (index + i - 4));
+                Steganography._message = Arrays.copyOfRange(byteArrayIn, index + 4 , (index + i - 4));
 
 //                int sizeData = message.length();
 

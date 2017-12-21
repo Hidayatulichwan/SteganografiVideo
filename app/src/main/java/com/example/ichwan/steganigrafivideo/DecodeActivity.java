@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,8 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DecodeActivity extends AppCompatActivity {
@@ -36,10 +38,13 @@ public class DecodeActivity extends AppCompatActivity {
     private Button btnBrowseVid, mbtnRetrieve;
     private VideoView videoPreview2;
     private MediaController mediacontroller;
-    private EditText isiKey;
+    private EditText isiKey2;
     private TextView outputTexs, info;
     String srcPath = null;
     String convertedPath;
+    AesAlgoritma Aess = new AesAlgoritma();
+    String outputDecode;
+    private static final String TAG = "EncodeActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,7 @@ public class DecodeActivity extends AppCompatActivity {
         btnBrowseVid = (Button) findViewById(R.id.btnBrowseVid);
         mbtnRetrieve = (Button) findViewById(R.id.btnRetrieve);
         outputTexs = (TextView) findViewById(R.id.outputTeks);
-        isiKey = (EditText) findViewById(R.id.isiKey2);
+        isiKey2 = (EditText) findViewById(R.id.isiKey2);
         info = (TextView) findViewById(R.id.info);
         videoPreview2 = (VideoView) findViewById(R.id.videoPreview2);
         btnBrowseVid.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +64,8 @@ public class DecodeActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Takevideo();
-                //  outputTexs.setText("");
+                outputTexs.setText("");
+                isiKey2.setText("");
             }
         });
 
@@ -67,13 +73,15 @@ public class DecodeActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                String strkey = isiKey.getText().toString().trim();
-                String chiperTeksDes = null;
-
-                if (strkey.length() == 8) {
-
-
+//                String strkey = getPesan(isiKey.getText().toString().trim());
+//
+//                if (strkey.isEmpty()) {
+//                    Toast.makeText(getApplicationContext(),"Tidak ada Pesan yang bisa dipecahkan dengan key tersebut!",Toast.LENGTH_LONG).show();
+//                }
+                String strkey = isiKey2.getText().toString().trim();
+                if (strkey.length()==8){
                     RetrieveTeks();
+
                 } else if (convertedPath == null) {
                     AlertDialog Gagal = new AlertDialog.Builder(DecodeActivity.this).create();
                     Gagal.setTitle("Message Error");
@@ -87,7 +95,7 @@ public class DecodeActivity extends AppCompatActivity {
                     Gagal.show();
 
 
-                }else {
+                } else {
                     AlertDialog salah = new AlertDialog.Builder(DecodeActivity.this).create();
                     salah.setTitle("Error Message");
                     salah.setMessage("Key atau kunci Salah");
@@ -118,26 +126,47 @@ public class DecodeActivity extends AppCompatActivity {
 
     public void RetrieveTeks() {
 
+
         int i = 0;
         try {
             i = Steganography.retriveMessage(convertedPath);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
         if (i == Steganography.SUDAH_ADA_DATA) {
-            outputTexs.setText("Pesan Asli : " + new String(Steganography.getMessage()) + "\n Setelah didecode :" +
-                    " ");
-            AlertDialog builder = new AlertDialog.Builder(DecodeActivity.this).create();
-            builder.setTitle("Message Success");
-            builder.setMessage("Pesan Berhasil Di Retrieve");
-            builder.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface DecodeActivity, int which) {
+            String IsiKey = isiKey2.getText().toString();
+                 if (IsiKey.isEmpty()){
+                    AlertDialog builder = new AlertDialog.Builder(DecodeActivity.this).create();
+                    builder.setTitle("Message error");
+                    builder.setMessage("Key kosong atau kurang dari 8");
+                    builder.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface DecodeActivity, int which) {
+                        }
+                    });
+                    builder.show();
 
+                } else if(IsiKey.length()==8 ) {
+                     try {
+                         outputTexs.setText("Pesan Hasil Dekrip : " + Aess.decrypt(IsiKey, new String(Steganography.getMessage())));
+                         Log.d(TAG, "OutputDecode: " + outputTexs);
+                         Log.d(TAG, "HasilEnkrip: " + new String(Steganography.getMessage()));
 
-                }
-            });
-            builder.show();
+                     } catch (Exception e) {
+                         e.printStackTrace();
+                     }
+                     AlertDialog builder = new AlertDialog.Builder(DecodeActivity.this).create();
+                     builder.setTitle("Message Berhasil");
+                     builder.setMessage("Pesan Berhasil Di Retrieve");
+                     builder.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface DecodeActivity, int which) {
+                         }
+                     });
+                     builder.show();
+                 }
 
 
         } else {
@@ -150,8 +179,8 @@ public class DecodeActivity extends AppCompatActivity {
             builder.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface DecodeActivity, int which) {
-                        isiKey.setText("");
-                        outputTexs.setText("");
+                    isiKey2.setText("");
+                    outputTexs.setText("");
 
                 }
             });
@@ -159,6 +188,28 @@ public class DecodeActivity extends AppCompatActivity {
 
         }
     }
+
+//    public String getPesan(String strkey) {
+//        List<String> list = new ArrayList<String>();
+//        Uri uri = convertedPath.("content://sms/inbox");
+//        Cursor c = null;
+//        try{
+//            c = getApplicationContext().getContentResolver().query(uri, null, null ,null,null);
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//        RetrieveTeks();
+//
+//        c.close();
+//        return strkey;
+//    }
+
+
+
+
+
+
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
@@ -171,7 +222,7 @@ public class DecodeActivity extends AppCompatActivity {
 
                 Uri uri = data.getData();
                 convertedPath = getRealPathFromURI(uri);
-                //info.setText("Real Path: " + convertedPath + "\n");
+                info.setText("Real Path: " + convertedPath + "\n");
                 videoPreview2.setVideoURI(uri);
                 videoPreview2.requestFocus();
                 videoPreview2.start();

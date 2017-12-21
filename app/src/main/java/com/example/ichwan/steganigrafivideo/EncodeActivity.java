@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
 
 
 public class EncodeActivity extends AppCompatActivity {
@@ -42,14 +44,17 @@ public class EncodeActivity extends AppCompatActivity {
     private EditText editTextToClear, isiPesan, isiKey;
     private MediaController mediacontroller;
     String OutputString;
+    Timer timer = new Timer();
     DisplayMetrics dm;
     AesAlgoritma aess=new AesAlgoritma();
+    private static final String TAG = "EncodeActivity";
+    String outputPesan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encode);
-
+        timer = new Timer();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         videoPreview = (VideoView) findViewById(R.id.videoPreview);
@@ -58,6 +63,7 @@ public class EncodeActivity extends AppCompatActivity {
         btnSimpan = (Button) findViewById(R.id.btnSimpan);
         isiPesan = (EditText) findViewById(R.id.Tekspesan);
         isiKey = (EditText) findViewById(R.id.isiKey);
+
         if (isiKey.getText().toString().length() == 0) {
             isiKey.setError("Key isi dengan 8 karakter!");
         }
@@ -68,7 +74,12 @@ public class EncodeActivity extends AppCompatActivity {
                 String strkey = isiKey.getText().toString().trim();
                 if (strkey.length() == 8) {
                     // isiPesan.setText(chiperTeksDes);
+
+
                     sisipkanPesan();
+
+
+
                 } else if (fileUri == null) {
                     AlertDialog Gagal = new AlertDialog.Builder(EncodeActivity.this).create();
                     Gagal.setTitle("Message Error");
@@ -308,13 +319,26 @@ public class EncodeActivity extends AppCompatActivity {
     }
 
     private void sisipkanPesan() {
+        String Pesan = isiPesan.getText().toString();
+        String IsiKey = isiKey.getText().toString();
+
         try {
-            int i = Steganography.embbeded(fileUri.getPath(), fileUriOut.getPath(), isiPesan.getText().toString());
-            String Pesan = isiPesan.getText().toString();
+         outputPesan = aess.encrypt(IsiKey,Pesan);
+            Log.d(TAG, "OutputPesan: "+outputPesan);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            int i = Steganography.embbeded(fileUri.getPath(), fileUriOut.getPath(), outputPesan);
 
 
+
+
+            Log.d(TAG, "Pesan: "+Pesan);
+            Log.d(TAG, "Key: "+IsiKey);
             if (i == Steganography.BERHASIL) {
-                if (Pesan.trim().equals("")) {
+                if (outputPesan.trim().equals("")) {
                     Toast.makeText(this, "Masukan Pesan! ", Toast.LENGTH_SHORT).show();
 
 
