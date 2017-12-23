@@ -155,22 +155,6 @@ public class AesAlgoritma {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //
 //    static String AES = "AES";
 //    private static byte[] key = {

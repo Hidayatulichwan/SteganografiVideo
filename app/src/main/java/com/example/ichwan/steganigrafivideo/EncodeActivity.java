@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
 
+import javax.crypto.spec.SecretKeySpec;
+
 
 public class EncodeActivity extends AppCompatActivity {
 
@@ -43,7 +45,7 @@ public class EncodeActivity extends AppCompatActivity {
     private Button btnRecordVideo, btnClear, btnSimpan;
     private EditText editTextToClear, isiPesan, isiKey;
     private MediaController mediacontroller;
-    String OutputString;
+
     Timer timer = new Timer();
     DisplayMetrics dm;
     AesAlgoritma aess=new AesAlgoritma();
@@ -322,9 +324,22 @@ public class EncodeActivity extends AppCompatActivity {
         String Pesan = isiPesan.getText().toString();
         String IsiKey = isiKey.getText().toString();
 
+        //Untuk Melihat Pesan dan Size Pesan Asli
+        double bytes1 = Pesan.length();
+        double kilobytes1= (bytes1/1024);
+        Log.d(TAG," OuptputBytes1 : " + bytes1);
+        Log.d(TAG," OuptputKiloBytes1 : " + kilobytes1);
+
         try {
-         outputPesan = aess.encrypt(IsiKey,Pesan);
+            outputPesan = aess.encrypt(IsiKey,Pesan);
+            //Untuk Melihat Pesan dan Size Plantext
             Log.d(TAG, "OutputPesan: "+outputPesan);
+            double bytes = outputPesan.length();
+            double kilobytes= (bytes/1024);
+            Log.d(TAG," OuptputBytes : " + bytes);
+            Log.d(TAG," OuptputKiloBytes : " + kilobytes);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -332,13 +347,10 @@ public class EncodeActivity extends AppCompatActivity {
         try {
             int i = Steganography.embbeded(fileUri.getPath(), fileUriOut.getPath(), outputPesan);
 
-
-
-
             Log.d(TAG, "Pesan: "+Pesan);
             Log.d(TAG, "Key: "+IsiKey);
             if (i == Steganography.BERHASIL) {
-                if (outputPesan.trim().equals("")) {
+                if (Pesan.trim().equals("")) {
                     Toast.makeText(this, "Masukan Pesan! ", Toast.LENGTH_SHORT).show();
 
 
@@ -357,8 +369,8 @@ public class EncodeActivity extends AppCompatActivity {
                         public void onClick(DialogInterface EncodeActivity, int which) {
                             isiPesan.setText("");
                             isiKey.setText("");
-                            File videoFile = new File(fileUri.getPath());
-                            videoFile.delete();
+//                            File videoFile = new File(fileUri.getPath());
+//                            videoFile.delete();
 
                         }
                     });
@@ -400,13 +412,6 @@ public class EncodeActivity extends AppCompatActivity {
 
 
     }
-
-
-//    public void DeleteVideo(){
-//        File videoFile = new File(fileUri.getPath());
-//        videoFile.delete();
-//
-//    }
 
 
     @Override

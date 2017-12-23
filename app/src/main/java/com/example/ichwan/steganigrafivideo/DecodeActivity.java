@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.spec.SecretKeySpec;
+
 
 public class DecodeActivity extends AppCompatActivity {
 
@@ -137,10 +139,52 @@ public class DecodeActivity extends AppCompatActivity {
 
         if (i == Steganography.SUDAH_ADA_DATA) {
             String IsiKey = isiKey2.getText().toString();
-                 if (IsiKey.isEmpty()){
-                    AlertDialog builder = new AlertDialog.Builder(DecodeActivity.this).create();
-                    builder.setTitle("Message error");
-                    builder.setMessage("Key kosong atau kurang dari 8");
+            if (IsiKey.isEmpty()){
+                AlertDialog builder = new AlertDialog.Builder(DecodeActivity.this).create();
+                builder.setTitle("Message error");
+                builder.setMessage("Key kosong atau kurang dari 8");
+                builder.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface DecodeActivity, int which) {
+                    }
+                });
+                builder.show();
+
+            } else if(IsiKey.length()==8 ) {
+                AlertDialog builder = new AlertDialog.Builder(DecodeActivity.this).create();
+                try {
+                    //Untuk Melihat Size Pesan Asli /Plantext
+                    String pesanasli = new String(Steganography.getMessage());
+                    double bytes3 = pesanasli.length();
+                    double kilobytes3= (bytes3/1024);
+                    Log.d(TAG," OuptputBytes3 : " + bytes3);
+                    Log.d(TAG," OuptputKiloBytes3 : " + kilobytes3);
+
+                    //Untuk Melihat Size ChiperText
+                    outputTexs.setText("Pesan Hasil Dekrip : " + Aess.decrypt(IsiKey, new String(Steganography.getMessage())));
+                    double bytes2 = outputTexs.length();
+                    double kilobytes2= (bytes2/1024);
+                    Log.d(TAG," OuptputBytes2 : " + bytes2);
+                    Log.d(TAG," OuptputKiloBytes2 : " + kilobytes2);
+                    Log.d(TAG, "OutputDecode: " + outputTexs);
+                    Log.d(TAG, "HasilEnkrip: " + new String(Steganography.getMessage()));
+
+                    builder.setTitle("Message Berhasil");
+                    builder.setMessage("Pesan Berhasil Di Retrieve");
+
+                    builder.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface DecodeActivity, int which) {
+                        }
+                    });
+
+                    builder.show();
+
+                } catch (Exception e) {
+                    Log.d(TAG, "RetrieveTeks: error");
+                    e.printStackTrace();
+                    builder.setTitle("Message GAGAL");
+                    builder.setMessage("Pesan GAGAL Di Retrieve");
                     builder.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface DecodeActivity, int which) {
@@ -148,25 +192,8 @@ public class DecodeActivity extends AppCompatActivity {
                     });
                     builder.show();
 
-                } else if(IsiKey.length()==8 ) {
-                     try {
-                         outputTexs.setText("Pesan Hasil Dekrip : " + Aess.decrypt(IsiKey, new String(Steganography.getMessage())));
-                         Log.d(TAG, "OutputDecode: " + outputTexs);
-                         Log.d(TAG, "HasilEnkrip: " + new String(Steganography.getMessage()));
-
-                     } catch (Exception e) {
-                         e.printStackTrace();
-                     }
-                     AlertDialog builder = new AlertDialog.Builder(DecodeActivity.this).create();
-                     builder.setTitle("Message Berhasil");
-                     builder.setMessage("Pesan Berhasil Di Retrieve");
-                     builder.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                         @Override
-                         public void onClick(DialogInterface DecodeActivity, int which) {
-                         }
-                     });
-                     builder.show();
-                 }
+                }
+            }
 
 
         } else {
@@ -189,29 +216,6 @@ public class DecodeActivity extends AppCompatActivity {
         }
     }
 
-//    public String getPesan(String strkey) {
-//        List<String> list = new ArrayList<String>();
-//        Uri uri = convertedPath.("content://sms/inbox");
-//        Cursor c = null;
-//        try{
-//            c = getApplicationContext().getContentResolver().query(uri, null, null ,null,null);
-//        }catch(Exception e){
-//            e.printStackTrace();
-//        }
-//        RetrieveTeks();
-//
-//        c.close();
-//        return strkey;
-//    }
-
-
-
-
-
-
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -233,15 +237,14 @@ public class DecodeActivity extends AppCompatActivity {
                 mediacontroller.setMediaPlayer(videoPreview2);
                 mediacontroller.setAnchorView(videoPreview2);
                 videoPreview2.setMediaController(mediacontroller);
-//
-//                int i = 0;
+//               int i = 0;
 //                try {
 //                    i = Steganography.retriveMessage(convertedPath);
 //                }
 //                catch (IOException e) {
 //                    e.printStackTrace();
 //                }if (i == Steganography.SUDAH_ADA_DATA) {
-//                    outputTexs.setText("Pesan Asli : " + new String(Steganography.getMessage()) + "\n Setelah didecode :" +
+//                  outputTexs.setText("Pesan Asli : " + new String(Steganography.getMessage()) + "\n Setelah didecode :" +
 //                                                        " ");
 //                } else {
 //                    Toast.makeText(getApplicationContext(),
@@ -252,6 +255,8 @@ public class DecodeActivity extends AppCompatActivity {
 //                Toast.makeText(getApplicationContext(),
 //                        "Video Tidak Dapat Di Buka\",\n" + "\"Error!", Toast.LENGTH_SHORT)
 //                        .show();
+
+
 
 
             }
