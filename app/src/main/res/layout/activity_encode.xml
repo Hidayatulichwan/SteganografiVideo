@@ -87,6 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/menuC">
 
+
         <EditText
             android:id="@+id/Tekspesan"
             android:layout_width="270dp"

@@ -9,7 +9,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,15 +18,12 @@ import android.widget.EditText;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
-
-import javax.crypto.spec.SecretKeySpec;
 
 
 public class EncodeActivity extends AppCompatActivity {
@@ -36,16 +32,14 @@ public class EncodeActivity extends AppCompatActivity {
     // Activity request codes
     private static final int CAMERA_CAPTURE_VIDEO_REQUEST_CODE = 200;
     public static final int MEDIA_TYPE_VIDEO = 2;
-
     // directory name to store captured videos
     private static final String Video_DIRECTORY_NAME = "Aplikasi video";
     private Uri fileUri;
     private static Uri fileUriOut; // file url to store image/video
-    private VideoView videoPreview;
-    private Button btnRecordVideo, btnClear, btnSimpan;
-    private EditText editTextToClear, isiPesan, isiKey;
+    private VideoView mvideoPreview;
+    private Button mbtnRecordVideo, mbtnClear, mbtnSimpan;
+    private EditText editTextToClear, misiPesan, misiKey;
     private MediaController mediacontroller;
-
     Timer timer = new Timer();
     DisplayMetrics dm;
     AesAlgoritma aess=new AesAlgoritma();
@@ -59,28 +53,24 @@ public class EncodeActivity extends AppCompatActivity {
         timer = new Timer();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        videoPreview = (VideoView) findViewById(R.id.videoPreview);
-        btnRecordVideo = (Button) findViewById(R.id.btnvideo);
-        btnClear = (Button) findViewById(R.id.btnBatal);
-        btnSimpan = (Button) findViewById(R.id.btnSimpan);
-        isiPesan = (EditText) findViewById(R.id.Tekspesan);
-        isiKey = (EditText) findViewById(R.id.isiKey);
+        mvideoPreview = (VideoView) findViewById(R.id.videoPreview);
+        mbtnRecordVideo = (Button) findViewById(R.id.btnvideo);
+        mbtnClear = (Button) findViewById(R.id.btnBatal);
+        mbtnSimpan = (Button) findViewById(R.id.btnSimpan);
+        misiPesan = (EditText) findViewById(R.id.Tekspesan);
+        misiKey = (EditText) findViewById(R.id.isiKey);
 
-        if (isiKey.getText().toString().length() == 0) {
-            isiKey.setError("Key isi dengan 8 karakter!");
+        if (misiKey.getText().toString().length() == 0) {
+            misiKey.setError("Key isi dengan 8 karakter!");
         }
-
-        btnSimpan.setOnClickListener(new View.OnClickListener() {
+        mbtnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String strkey = isiKey.getText().toString().trim();
+                String strkey = misiKey.getText().toString().trim();
                 if (strkey.length() == 8) {
                     // isiPesan.setText(chiperTeksDes);
 
-
                     sisipkanPesan();
-
-
 
                 } else if (fileUri == null) {
                     AlertDialog Gagal = new AlertDialog.Builder(EncodeActivity.this).create();
@@ -98,28 +88,23 @@ public class EncodeActivity extends AppCompatActivity {
                 } else {
                     AlertDialog salah = new AlertDialog.Builder(EncodeActivity.this).create();
                     salah.setTitle("Error Message");
-                    salah.setMessage("Key atau kunci Harus 8 karakter");
-
+                    salah.setMessage("Key atau kunci Harus 8 karakter !");
                     salah.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface EncodeActivity, int which) {
-
                         }
                     });
                     salah.show();
-
                 }
             }
-
         });
 
 
-        btnClear.setOnClickListener(new View.OnClickListener() {
-
+        mbtnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isiPesan.setText("");
-                isiKey.setText("");
+                misiPesan.setText("");
+                misiKey.setText("");
 //
 //                File videoFile = new File(fileUri.getPath());
 //                videoFile.delete();
@@ -131,7 +116,7 @@ public class EncodeActivity extends AppCompatActivity {
           /*
          * Record video button click event
 		 */
-        btnRecordVideo.setOnClickListener(new View.OnClickListener() {
+        mbtnRecordVideo.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -152,11 +137,11 @@ public class EncodeActivity extends AppCompatActivity {
     }
 
     private void cleanupVideo() {
-        if (videoPreview.getVisibility() == View.VISIBLE) {
-            videoPreview.stopPlayback();
-            videoPreview.clearAnimation();
-            videoPreview.suspend(); // clears media player
-            videoPreview.setVideoURI(null);
+        if (mvideoPreview.getVisibility() == View.VISIBLE) {
+            mvideoPreview.stopPlayback();
+            mvideoPreview.clearAnimation();
+            mvideoPreview.suspend(); // clears media player
+            mvideoPreview.setVideoURI(null);
             //x mVideoViewButton.setVisibility(View.VISIBLE);
         }
     }
@@ -183,7 +168,6 @@ public class EncodeActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
         // save file url in bundle as it will be null on scren orientation
         // changes
         outState.putParcelable("file_uri", fileUri);
@@ -192,11 +176,11 @@ public class EncodeActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-
         // get the file url
         fileUri = savedInstanceState.getParcelable("file_uri");
     }
 
+    //Record Video
     private void recordVideo() {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
@@ -205,7 +189,6 @@ public class EncodeActivity extends AppCompatActivity {
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file
         // name
-
         // start the video capture Intent
         startActivityForResult(intent, CAMERA_CAPTURE_VIDEO_REQUEST_CODE);
     }
@@ -237,31 +220,30 @@ public class EncodeActivity extends AppCompatActivity {
     }
 
     /*
-             * Previewing recorded video
-             */
+    * Previewing recorded video
+    */
     private void previewVideo() {
         dm = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(dm);
-
         int tinggi = dm.heightPixels;
         int lebar = dm.widthPixels;
         try {
 
             // Boolean canPauseVideo = videoPreview.canPause();
-            videoPreview.setVisibility(View.VISIBLE);
-            videoPreview.setVideoPath(fileUri.getPath());
+            mvideoPreview.setVisibility(View.VISIBLE);
+            mvideoPreview.setVideoPath(fileUri.getPath());
             // start playing
-            videoPreview.setMinimumHeight(tinggi);
-            videoPreview.setMinimumWidth(lebar);
+            mvideoPreview.setMinimumHeight(tinggi);
+            mvideoPreview.setMinimumWidth(lebar);
             mediacontroller = new MediaController(this);
-            mediacontroller.setMediaPlayer(videoPreview);
-            mediacontroller.setAnchorView(videoPreview);
-            videoPreview.setMediaController(mediacontroller);
-            videoPreview.start();
-            videoPreview.canPause();
-            videoPreview.requestFocus();
-            videoPreview.stopPlayback();
-            videoPreview.resume();
+            mediacontroller.setMediaPlayer(mvideoPreview);
+            mediacontroller.setAnchorView(mvideoPreview);
+            mvideoPreview.setMediaController(mediacontroller);
+            mvideoPreview.start();
+            mvideoPreview.canPause();
+            mvideoPreview.requestFocus();
+            mvideoPreview.stopPlayback();
+            mvideoPreview.resume();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -294,13 +276,7 @@ public class EncodeActivity extends AppCompatActivity {
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-//                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create"
-//                        + IMAGE_DIRECTORY_NAME + "directory");
                 return null;
-
-//                log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
-//                        + IMAGE_DIRECTORY_NAME + " directory");
-//                return null;
             }
         }
 
@@ -316,14 +292,13 @@ public class EncodeActivity extends AppCompatActivity {
             return null;
         }
         return mediaFile;
-
-
     }
 
+    //Jalankan Class Stegano Dan Enkrip
     private void sisipkanPesan() {
-        String Pesan = isiPesan.getText().toString();
-        String IsiKey = isiKey.getText().toString();
-
+        String Pesan = misiPesan.getText().toString();
+        String IsiKey = misiKey.getText().toString();
+        //String IsiKey="12345678";
         //Untuk Melihat Pesan dan Size Pesan Asli
         double bytes1 = Pesan.length();
         double kilobytes1= (bytes1/1024);
@@ -331,6 +306,7 @@ public class EncodeActivity extends AppCompatActivity {
         Log.d(TAG," OuptputKiloBytes1 : " + kilobytes1);
 
         try {
+            //Pesan Dienkrip panggil class Enkrip
             outputPesan = aess.encrypt(IsiKey,Pesan);
             //Untuk Melihat Pesan dan Size Plantext
             Log.d(TAG, "OutputPesan: "+outputPesan);
@@ -339,27 +315,19 @@ public class EncodeActivity extends AppCompatActivity {
             Log.d(TAG," OuptputBytes : " + bytes);
             Log.d(TAG," OuptputKiloBytes : " + kilobytes);
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
             int i = Steganography.embbeded(fileUri.getPath(), fileUriOut.getPath(), outputPesan);
-
             Log.d(TAG, "Pesan: "+Pesan);
             Log.d(TAG, "Key: "+IsiKey);
             if (i == Steganography.BERHASIL) {
                 if (Pesan.trim().equals("")) {
                     Toast.makeText(this, "Masukan Pesan! ", Toast.LENGTH_SHORT).show();
-
-
                     return;
 
-//                }else if(fileUri == null){
-//
-//                    Toast.makeText(this, "Rekam Video! ", Toast.LENGTH_SHORT).show();
-//                    return;
                 } else {
                     AlertDialog builder = new AlertDialog.Builder(EncodeActivity.this).create();
                     builder.setTitle("Message Success");
@@ -367,8 +335,8 @@ public class EncodeActivity extends AppCompatActivity {
                     builder.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface EncodeActivity, int which) {
-                            isiPesan.setText("");
-                            isiKey.setText("");
+                            misiPesan.setText("");
+                            misiKey.setText("");
 //                            File videoFile = new File(fileUri.getPath());
 //                            videoFile.delete();
 
@@ -376,7 +344,6 @@ public class EncodeActivity extends AppCompatActivity {
                     });
                     builder.show();
                 }
-
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -386,34 +353,14 @@ public class EncodeActivity extends AppCompatActivity {
             Gagal.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface EncodeActivity, int which) {
-
                 }
             });
             Gagal.show();
 
         }
-//        try {
-//            int i = Steganography.embbeded(File.ge().trim(),  isiPesan.getText());
-//            if(i == Steganography.BERHASIL){
-//                Toast.makeText(getApplicationContext(), "Berhasil Menyimpan Data",
-//                        Toast.LENGTH_SHORT).show();
-//
-//                return;
-//            }else{
-//                Toast.makeText(getApplicationContext(), "Gagal Menyimpan Data",
-//                        Toast.LENGTH_SHORT).show();
-//                return ;
-//            }
-//
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-
     }
 
-
+    //Kembali Kemenu Utama
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -423,7 +370,5 @@ public class EncodeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }
 
