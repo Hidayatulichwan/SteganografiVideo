@@ -61,6 +61,7 @@
 
     <TextView
         android:id="@+id/info"
+        android:visibility="gone"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/divider"
@@ -70,15 +71,17 @@
         android:layout_width="400dp"
         android:layout_height="300dp"
         android:layout_below="@+id/menuB">
-    <TextView
-        android:id="@+id/outputTeks"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/info"
-        android:background="#ffffff"
-        android:hint="Isi pesan" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp">
+            <TextView
+                android:id="@+id/outputTeks"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_below="@+id/info"
+                android:background="#ffffff"
+                android:hint="Isi pesan" />
+        </LinearLayout>
 
     </ScrollView>
 </RelativeLayout>
