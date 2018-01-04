@@ -34,6 +34,7 @@
             android:layout_width="130dp"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
+            android:inputType="numberPassword"
             android:background="#ffffff"
             android:gravity="top"
             android:hint="Isi Key"

@@ -26,6 +26,7 @@
             android:maxLength="8"
             android:minLines="8"
             android:hint="Isi Key"
+            android:inputType="numberPassword"
             android:layout_marginLeft="10dp"
             android:background="#ffffff"
             android:gravity="top" />
@@ -64,9 +65,6 @@
         android:layout_height="wrap_content"
         android:background="@color/divider"
         android:layout_below="@+id/menuB"/>
-
-
-
 
     <ScrollView
         android:layout_width="400dp"
