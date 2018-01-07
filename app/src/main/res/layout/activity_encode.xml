@@ -47,7 +47,6 @@
 
     <LinearLayout
         android:id="@+id/menuB"
-        android:layout_marginTop="@dimen/d16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/menuA">
@@ -67,14 +66,13 @@
 
     <RelativeLayout
         android:id="@+id/menuC"
-        android:layout_marginTop="@dimen/d16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/menuB">
         <VideoView
             android:id="@+id/videoPreview"
             android:layout_width="400dp"
-            android:layout_height="309dp"/>
+            android:layout_height="390dp"/>
     </RelativeLayout>
 
 
@@ -129,6 +127,7 @@
             android:layout_centerHorizontal="true"
             android:text="Clear"
             android:textSize="12dp"
+            android:layout_marginBottom=""
             tools:ignore="NotSibling" />
     </RelativeLayout>
 
