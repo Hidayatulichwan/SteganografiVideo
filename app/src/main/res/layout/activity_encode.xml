@@ -73,6 +73,7 @@
             android:id="@+id/videoPreview"
             android:layout_width="400dp"
             android:layout_height="390dp"/>
+
     </RelativeLayout>
 
 
@@ -83,53 +84,55 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_width="280dp"
+        android:layout_width="match_parent"
         android:layout_marginLeft="@dimen/d4"
+        android:layout_alignBottom="@+id/menuC"
         android:layout_height="100dp"
         android:id="@+id/relativeLayout">
         <ScrollView
             android:layout_width="280dp"
             android:layout_height="300dp">
             <LinearLayout
+                android:id="@+id/layoutTekspesan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <EditText
                     android:id="@+id/Tekspesan"
-                    android:layout_width="280dp"
+                    android:layout_width="255dp"
                     android:layout_height="200dp"
                     android:background="#ffffff"
                     android:gravity="top"
                     android:hint="Masukan Pesan" />
             </LinearLayout>
         </ScrollView>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/menuD"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/relativeLayout"
-        android:layout_toEndOf="@+id/relativeLayout"
-        android:layout_toRightOf="@+id/relativeLayout">
+        <RelativeLayout
+            android:id="@+id/menuD"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btnSimpan"
             android:layout_width="100dp"
             android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:text="Embed"
-            android:textSize="12dp"/>
+            android:textSize="12dp"
+            tools:ignore="NotSibling" />
 
         <Button
             android:id="@+id/btnBatal"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:layout_below="@+id/btnSimpan"
-            android:layout_centerHorizontal="true"
+            android:layout_alignLeft="@+id/layoutTekspesan"
+            android:layout_alignStart="@+id/layoutTekspesan"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:text="Clear"
             android:textSize="12dp"
-            android:layout_marginBottom=""
             tools:ignore="NotSibling" />
+
+        </RelativeLayout>
     </RelativeLayout>
-
-
-</RelativeLayout>
